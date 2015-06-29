@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name         = "Bugly"
   s.version      = "1.2.5"
   s.summary      = "Bugly iOS SDK"
-  s.description  = "Bugly iOS SDK"
+  s.description  = "Bugly iOS SDK - Crash Reporter"
   s.homepage     = "http://bugly.qq.com/"
   s.license      = { :type => "Copyright", :text => "©2015 Tencent.com"}
   s.author       = { "Bugly" => "bugly@qq.com" }
