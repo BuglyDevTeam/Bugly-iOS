@@ -6,11 +6,11 @@ Pod::Spec.new do |s|
   s.homepage     = "http://bugly.qq.com/"
   s.license      = { :type => "Copyright", :text => "©2015 Tencent.com"}
   s.author       = { "Bugly" => "bugly@qq.com" }
-  s.source       = { :http => "" }
+  s.source       = { :https => "https://raw.githubusercontent.com/szrambo/Bugly/master/release/bugly-1.2.5.zip" }
   
   s.platform     = :ios, '6.0'
 
   s.source_files = 'Bugly.framework/Headers/*.h'
   s.vendored_frameworks = 'Bugly.framework'
-  s.frameworks = 'SystemConfiguration'
+  s.frameworks = 'SystemConfiguration','libz.dylib','libc++.dylib'
 end
