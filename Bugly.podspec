@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage     = "http://bugly.qq.com/"
   s.license      = { :type => "Copyright", :text => "©2015 Tencent.com"}
   s.author       = { "Bugly" => "bugly@qq.com" }
-  s.source       = { :https => "https://raw.githubusercontent.com/szrambo/Bugly/master/release/bugly-1.2.5.zip" }
+  s.source       = { :http => "https://raw.githubusercontent.com/szrambo/Bugly/master/release/bugly-1.2.5.zip" }
   s.requires_arc = false  
   s.platform     = :ios, '6.0'
 
