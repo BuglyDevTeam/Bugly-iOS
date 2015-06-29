@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "Bugly"
+  s.name         = "Bugly - iOS"
   s.version      = "1.2.5"
   s.summary      = "Bugly iOS SDK"
   s.description  = "Bugly iOS SDK - Crash Reporter"
