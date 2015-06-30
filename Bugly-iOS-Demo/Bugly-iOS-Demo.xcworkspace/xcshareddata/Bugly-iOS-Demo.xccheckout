@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>89A082DA-92D4-40D6-81BF-DBD4710E867D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Bugly-iOS-Demo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>34B98B0D00779920B097AC78385BFB8778F9B564</key>
+		<string>https://github.com/BuglyDevTeam/Bugly-iOS</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Bugly-iOS-Demo/Bugly-iOS-Demo.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>34B98B0D00779920B097AC78385BFB8778F9B564</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/BuglyDevTeam/Bugly-iOS</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>34B98B0D00779920B097AC78385BFB8778F9B564</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>34B98B0D00779920B097AC78385BFB8778F9B564</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Bugly-Pods</string>
+		</dict>
+	</array>
+</dict>
+</plist>
