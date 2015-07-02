@@ -74,7 +74,8 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 **Objective-C**
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
+		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
 		return YES;
 	}
 
@@ -156,3 +157,5 @@ Bugly 提供了众多功能强大的模块供开发者开启，如
 - 异常回调..等
 
 #### 关于Bugly更多高级功能的使用，请移步 [Bugly高级功能使用指南](./advanced/ADVANCED.md)
+
+
