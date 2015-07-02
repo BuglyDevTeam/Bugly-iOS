@@ -160,6 +160,6 @@ Bugly 提供了众多功能强大的模块供开发者开启，如
 
 - 异常回调..等
 
-#### 关于Bugly更多高级功能的使用，请移步 [Bugly高级功能使用指南](./advanced/ADVANCED.md")
+#### 关于Bugly更多高级功能的使用，请移步 [Bugly高级功能使用指南](./advanced/ADVANCED.md)
 
 
