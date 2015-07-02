@@ -11,9 +11,7 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
 在工程的 **Podfile** 里面添加以下代码
 
-`
-pod 'Bugly'
-`
+`pod 'Bugly'`
 
 保存并运行`pod install`,然后用后缀为`.xcworkspace`的文件打开工程
 
@@ -40,9 +38,7 @@ pod 'Bugly'
 
 在工程的`AppDelegate.m`中导入头文件
 
-`
-#import <Bugly/CrashReporter.h>
-`
+`#import <Bugly/CrashReporter.h>`
 
 **如果是 Swift 工程，请在对应`bridging-header.h`中导入**
 
@@ -53,9 +49,9 @@ pod 'Bugly'
 **Objective-C**
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-		return YES;
-	  }
+	    [[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+	    return YES;
+	}
 
 
 **Swift**
@@ -78,17 +74,16 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 **Objective-C**
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    	[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-    	[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
-    	return YES;
-    	}
+		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
+		return YES;
+	}
 
 **Swift**
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
-    	NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
-    	return true
+		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
+		NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
+		return true
 	}
 
 
@@ -105,18 +100,18 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 **Objective-C**
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] enableLog:YES];
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
-		return YES;
+	    [[CrashReporter sharedInstance] enableLog:YES];
+	    [[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+	    [self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
+	    return YES;
 	}
 **Swift**
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    	CrashReporter.sharedInstance().enableLog(true)
-    	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
-    	NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
-    	return true
+		CrashReporter.sharedInstance().enableLog(true)
+		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
+		NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
+		return true
 	}
 
 **请在 log 中查找以下关键字**
@@ -161,5 +156,3 @@ Bugly 提供了众多功能强大的模块供开发者开启，如
 - 异常回调..等
 
 #### 关于Bugly更多高级功能的使用，请移步 [Bugly高级功能使用指南](./advanced/ADVANCED.md)
-
-
