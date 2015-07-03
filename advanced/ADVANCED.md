@@ -94,6 +94,16 @@ Bugly 提供了两种配置符号表的方式
 - 修改新增的`Run Scrpit`中的 `<YOUR_APP_ID>` 为您的 appid,`<YOUR_APP_KEY>`为您的 appkey，`<YOUR_BUNDLE_ID>` 为 app 的 Bundle Id
 ![](./dSYMUpload_3@2x.tiff)
 
+脚本默认在 **Debug** 模式及 **模拟器编译** 情况下不会上传符号表，在需要上传的时候，请修改下列选项
+
+- Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传
+
+`UPLOAD_DEBUG_SYMBOLS=0`
+
+- 模拟器编译是否上传，1＝上传 0＝不上传，默认不上传
+
+`UPLOAD_SIMULATOR_SYMBOLS=0`
+
 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
 
 如果不想自动上传模拟器编译后的符号文件，请修改脚本`UPLOAD_SIMULATOR_SYMBOLS=0`
