@@ -113,4 +113,4 @@ Bugly 提供了两种配置符号表的方式
 关于手动上传符号表，请参阅 [手动符号表配置指南](http://bugly.qq.com)
 
 
-### 更多功能请查阅 Bugly 头文件`CrashReporater.h`
+### 更多功能请查阅 Bugly 头文件`CrashReporter.h`
