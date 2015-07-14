@@ -83,7 +83,7 @@ Bugly 提供了两种配置符号表的方式
 
 - 下载解压 [自动配置符号表 zip 文件](http://bugly.qq.com/sdkdown?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)
 
-- 把符号表提取工具`buglySymbolIOS.jar` 保存在 `~/bin` 目录下
+- 把符号表提取工具`buglySymbolIOS.jar` 保存在 `~/bin` 目录下 (如用户主目录没有`bin`文件夹,请自行创建)
 
 - 在 Xcode 工程对应 Target 的`Build Phases`中新增`Run Scrpit Phase`
 ![](./dSYMUpload_1@2x.tiff)
