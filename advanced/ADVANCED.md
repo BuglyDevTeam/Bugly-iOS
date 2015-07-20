@@ -12,7 +12,7 @@
 
 - 卡顿监测功能控制
 
-	开启/关闭 卡顿监测功能，默认开启
+	开启/关闭 卡顿监测及上报功能，捕获功能默认开启，上报默认关闭
 
 `- (void)enableBlockMonitor:(BOOL) monitor autoReport:(BOOL) reporter;`
 
