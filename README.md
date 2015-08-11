@@ -4,7 +4,8 @@
 
 Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
-* CocoaPods  
+* CocoaPods
+
 * 手动集成 
 
 ### 1.1 CocoaPods 集成方式
@@ -20,17 +21,17 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 ### 1.2 手动集成方式
 
 * 下载并解压 [iOS SDK](http://bugly.qq.com/sdkdown?id=05deedf8-796e-4e95-9d1d-3bb3d9890e78 "iOS SDK") 
-* 拖拽`Bugly_libc++`目录下的`Bugly.framework`文件到 Xcode 工程内 （请勾选复制选项）
+* 拖拽`Bugly_libc++`目录下的`Bugly.framework`文件到 Xcode 工程内 （请勾选`Copy items if needed`选项）
 * 添加依赖库
-	* `SystemConfiguration.framework`
-	* `Security.framework`
-	* `libz.dylib`
-	* `libc++.dylib`
+	- `SystemConfiguration.framework`
+	- `Security.framework`
+	- `libz.dylib`
+	- `libc++.dylib`
 
-**如果你的 Xcode 工程的 `C++ Standard Library` 配置为`libstdc++`**
+**如果你的 Xcode 工程里的 `C++ Standard Library` 配置为`libstdc++`**
 
 1. 请选择`Bugly_libstdc++`目录下的`Bugly.framework`
-2. 并将`libc++.dylib`替换为`libstdc++.dylib`
+2. 并将上述依赖库中的`libc++.dylib`替换为`libstdc++.dylib`
 
 ## 2. 初始化SDK
 
@@ -44,13 +45,13 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
 ### 2.初始化 Bugly
 
-在工程`AppDelegate`的`application didFinishLaunch...`方法中初始化 Bugly
+在工程`AppDelegate.m`的`application didFinishLaunch...`方法中初始化 Bugly
 
 **Objective-C**
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	    [[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-	    return YES;
+		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+		return YES;
 	}
 
 
@@ -59,8 +60,28 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
 		return true
-    }
+	}
 
+### 3.iOS Extension 初始化
+
+如果工程内包含 Extension Target,则初始化方法需要带上共用的 App Group 标识符
+
+**Objective-C**
+
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"  applicationGroupIdentifier:@"此处替换为你的App Group标识符"];
+		return YES;
+	}
+
+
+**Swift**
+
+	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId" applicationGroupIdentifier:"此处替换为你的App Group标识符")
+		return true
+	}
+
+关于 Extension 的接入流程请参见 [Bugly iOS Extension SDK 接入指南](./advanced/EXTENSION.md)
 
 #### 至此，恭喜你的工程已经成功集成 Bugly，接下来编译并运行你的工程吧 ：）
 
@@ -69,7 +90,7 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
 ##如何确认成功接入 Bugly ？
 
-Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App 代码中手动构建一个异常,如下
+Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App 代码中手动构建一个异常,如下述例子
 
 **Objective-C**
 
@@ -87,47 +108,57 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 		return true
 	}
 
-
-**请连接 iOS 设备编译并运行后，点击 Xcode 的中止按钮断开调试模式，然后重新启动 App 进行关键步骤确认**
-
-*编译启动后，点击Xcode的中止按钮中断调试*
-
-### 关键步骤 log 输出
-
-**请在初始化Bugly 代码前打开 log 输出**
+**请在初始化 Bugly 代码前打开 log 输出**
 
 `- (void)enableLog:(BOOL)enabled;`
 
 **Objective-C**
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	    [[CrashReporter sharedInstance] enableLog:YES];
-	    [[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-	    [self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
-	    return YES;
+		[[CrashReporter sharedInstance] enableLog:YES];
+		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
+		return YES;
 	}
 **Swift**
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		CrashReporter.sharedInstance().enableLog(true)
 		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
-		NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
+		NSObject.performSelector("crash", withObject: nil, afterDelay: 3.0)
 		return true
 	}
+	
+**准备步骤**
 
-**请在 log 中查找以下关键字**
+* 连接 iOS 设备，编译并运行，点击 Xcode 的中止按钮断开调试模式
 
-- 初始化成功
+*编译启动后，点击图片中箭头所指按钮关闭 Xcode 调试模式*
+![关闭调试模式](./advanced/xcode_debug@2x.jpg)
 
-`<Notice>: <Working>: init sdk ..."}`
+* 进入 Xcode 中的 Devices 选项，选中调试设备并展开设备日志 (入口在Xcode上方菜单栏的`Window` -> `Devices`)
+
+![打开设备日志窗口](./advanced/deviceLog@2x.jpg)
+
+* 重新启动刚才编译的 App 开始关键步骤确认
+
+
+
+### 关键步骤 log 输出
+
+**请在设备日志输出的 Log 中查找以下关键字**
+
+- 初始化 SDK
+
+`<WORKFLOW>: init sdk ...`
 
 - 成功安装异常捕获模块
 
-`<Notice>: <Working>: sdk install signal handler success`
+`<WORKFLOW>: sdk install signal handler success, exception handler success`
 
-- 成功向服务器发送策略请求
+- 成功向服务器发送请求
 
-`<Notice>: <Working>: sdk send an request to server`
+`<WORKFLOW>: ******Http request successed`
 
 - 成功捕获异常的输出
 
@@ -157,5 +188,4 @@ Bugly 提供了众多功能强大的模块供开发者开启，如
 - 异常回调..等
 
 #### 关于Bugly更多高级功能的使用，请移步 [Bugly高级功能使用指南](./advanced/ADVANCED.md)
-
 
