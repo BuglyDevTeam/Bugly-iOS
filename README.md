@@ -12,7 +12,11 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
 在工程的 **Podfile** 里面添加以下代码
 
-`pod 'Bugly'`
+```ruby
+
+pod 'Bugly'
+
+```
 
 保存并运行`pod install`,然后用后缀为`.xcworkspace`的文件打开工程
 
@@ -47,32 +51,33 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
 在工程`AppDelegate.m`的`application didFinishLaunch...`方法中初始化 Bugly
 
-**Objective-C**
+```objective-c
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
 		return YES;
 	}
+```
 
-
-**Swift**
+```swift
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
 		return true
 	}
+```
 
 ### 3.iOS Extension 初始化
 
 如果工程内包含 Extension Target,则初始化方法需要带上共用的 App Group 标识符
 
-**Objective-C**
+```objective-c
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"  applicationGroupIdentifier:@"此处替换为你的App Group标识符"];
 		return YES;
 	}
-
+```
 
 **Swift**
 
@@ -92,13 +97,14 @@ Bugly 提供两种集成 SDK 方式供 iOS 开发者选择
 
 Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App 代码中手动构建一个异常,如下述例子
 
-**Objective-C**
+```objective-c
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
 		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
 		return YES;
 	}
+```
 
 **Swift**
 
@@ -112,7 +118,7 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 
 `- (void)enableLog:(BOOL)enabled;`
 
-**Objective-C**
+```objective-c
 
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 		[[CrashReporter sharedInstance] enableLog:YES];
@@ -120,6 +126,8 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
 		return YES;
 	}
+```
+
 **Swift**
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -182,6 +190,8 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 
 **如示例：关闭 友盟，TalkingData，Testin 相关能力的代码：**
 
+```objective-c
+
 	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	//    友盟
 	    [MobClick setCrashReportEnabled:NO];
@@ -199,8 +209,11 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 	    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
 	    return YES;
 	}
+```
 	
 **如果第三方SDK不在上述例子中，请查阅第三方SDK头文件或文档找到相应关闭接口进行关闭，如找不到相应接口，请在初始化Bugly前，调用 `enableSignalHandlerCheckable` 接口开启 Bugly 的检测能力**
+
+```objective-c
 
 	//    初始化Bugly
 	    [[CrashReporter sharedInstance] enableSignalHandlerCheckable:YES];
@@ -208,6 +221,7 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 	    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
 	    return YES;
 	}
+```
 	
 **如按照上述步骤确认成功仍无法正常上报，请联系客服协助解决**
 
