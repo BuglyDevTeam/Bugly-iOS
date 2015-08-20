@@ -14,13 +14,16 @@ BuglyExtension 提供两种集成 SDK 的方式供 iOS 开发者选择
 
 在工程的 **Podfile** 里对应的 Extension Target 中添加以下代码
 
-`pod 'BuglyExtension'`
-
+```ruby
+pod 'BuglyExtension'
+```
 示例：
 
-	target 'ExtensionPodTest WatchKit Extension' do
-		pod 'BuglyExtension'
-	end
+```ruby
+target 'ExtensionPodTest WatchKit Extension' do
+	pod 'BuglyExtension'
+end
+```
 
 保存并运行`pod install`,然后用后缀为`.xcworkspace`的文件打开工程
 
@@ -34,7 +37,7 @@ BuglyExtension 提供两种集成 SDK 的方式供 iOS 开发者选择
 	- **请勾选`Copy items if needed`选项**
 	- **如有多个 Extension Targets ,则一一进行勾选**
 
-![](ImportFramework@2x.jpg)
+![](./ImportFramework@2x.jpg)
 
 ---
 
@@ -60,22 +63,24 @@ BuglyExtension 提供两种集成 SDK 的方式供 iOS 开发者选择
 
 **Objective-C**
 
-	- (instancetype)init {
-    	self = [super init];
-    	if (self) {
-        	[CrashReporterLite startWithApplicationGroupIdentifier:@"此处替换为您的 App Group Identifier"];
-    	}
-    	return self;
+```objective-c
+- (instancetype)init {
+	self = [super init];
+	if (self) {
+    	[CrashReporterLite startWithApplicationGroupIdentifier:@"此处替换为您的 App Group Identifier"];
 	}
-
+	return self;
+}
+```
 
 **Swift**
 
-    override init() {
-        CrashReporterLite.startWithApplicationGroupIdentifier("此处替换为您的 App Group Identifier")
-        super.init()
-    }
-
+```swift
+override init() {
+    CrashReporterLite.startWithApplicationGroupIdentifier("此处替换为您的 App Group Identifier")
+    super.init()
+}
+```
 **如果 Apple Watch App 中还有 Glance 或 Notification 交互实现，则需在各自的入口`Controller`中添加上述代码。**
     
 #### 2.2 其它类型 Extension
@@ -86,22 +91,25 @@ BuglyExtension 提供两种集成 SDK 的方式供 iOS 开发者选择
     
 **Objective-C**
 
-	- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    	self = [super initWithCoder:aDecoder];
-    	if (self) {
-        	[CrashReporterLite startWithApplicationGroupIdentifier:@"此处替换为您的 App Group Identifier"];
-    	}
-    	return self;
+```objective-c
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	if (self) {
+    	[CrashReporterLite startWithApplicationGroupIdentifier:@"此处替换为您的 App Group Identifier"];
 	}
-
+	return self;
+}
+```
 
 **Swift**
 
-    required init(coder aDecoder: NSCoder) {
-    	CrashReporterLite.startWithApplicationGroupIdentifier("此处替换为您的 App Group Identifier")
-        super.init(coder: aDecoder)
-    }
-    
+```swift
+required init(coder aDecoder: NSCoder) {
+	CrashReporterLite.startWithApplicationGroupIdentifier("此处替换为您的 App Group Identifier")
+    super.init(coder: aDecoder)
+}
+```
+
 #### 2.3 Host App 中的初始化
 
 BuglyExtension SDK 依赖于 `Bugly iOS SDK 1.2.9` 及以上版本。
@@ -110,17 +118,19 @@ BuglyExtension SDK 依赖于 `Bugly iOS SDK 1.2.9` 及以上版本。
 
 **Objective-C**
 
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"  applicationGroupIdentifier:@"此处替换为你的App Group标识符"];
-		return YES;
-	}
-
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"  applicationGroupIdentifier:@"此处替换为你的App Group标识符"];
+	return YES;
+}
+```
 
 **Swift**
 
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId" applicationGroupIdentifier:"此处替换为你的App Group标识符")
-		return true
-	}
-
+```swift
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId" applicationGroupIdentifier:"此处替换为你的App Group标识符")
+	return true
+}
+```
 #### 至此，恭喜您的工程已经成功集成 BuglyExtension SDK，接下来编译并运行您的工程吧 ：）

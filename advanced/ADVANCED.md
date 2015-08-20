@@ -8,13 +8,17 @@
 
 开启/关闭 Bugly日志输出,默认关闭。建议 release 时关闭
 
-`- (void)enableLog:(BOOL)enabled;`
+```objective-c
+- (void)enableLog:(BOOL)enabled;
+```
 
 - 卡顿监测功能控制
 
 开启/关闭 卡顿监测及上报功能，捕获功能默认开启，上报默认开启
 
-`- (void)enableBlockMonitor:(BOOL)monitor autoReport:(BOOL)reporter;`
+```objective-c
+- (void)enableBlockMonitor:(BOOL)monitor autoReport:(BOOL)reporter;
+```
 
 ## 自定义参数
 
@@ -22,54 +26,64 @@
 
 自定义渠道标识，默认为空值
 
-`- (void)setChannel:(NSString *)channel;`
+```objective-c
+- (void)setChannel:(NSString *)channel;
+```
 
 - 设置设备标识
 
 SDK默认使用CFUDID标识设备，**注意: 平台依据 deviceId 统计用户数, 如果设置修改, 请保证其唯一性**
 
-`- (void)setDeviceId:(NSString *)deviceId;`
-
+```objective-c
+- (void)setDeviceId:(NSString *)deviceId;
+```
 - 设置应用版本
 
 SDK默认读取Info.plist文件中的版本信息,并组装成`CFBundleShortVersionString(CFBundleVersion)`格式
 
-`- (void)setBundleVer:(NSString *)bundleVer;`
-
+```objective-c
+- (void)setBundleVer:(NSString *)bundleVer;
+```
 - 设置用户标识
 
 SDK默认值为 10000
 
-`- (void)setUserId:(NSString *)userid;`
-
+```objective-c
+- (void)setUserId:(NSString *)userid;
+```
 - 自定义应用 Bundle Id
 
-`- (void)setBundleId:(NSString *)bundleId;`
-
+```objective-c
+- (void)setBundleId:(NSString *)bundleId;
+```
 - 自定义附件
 
 崩溃发生时, 添加附件内容。附件格式为字符串，字符最大长度为10 * 1024 **在回调方法中调用**
 
-`- (void)setAttachLog:(NSString *)attachment;`
-
+```objective-c
+- (void)setAttachLog:(NSString *)attachment;
+```
 - 自定义 Key Value
 
-`- (void)setUserData:(NSString *)key value:(NSString *)value;`
-
+```objective-c
+- (void)setUserData:(NSString *)key value:(NSString *)value;
+```
 ## 异常回调
 
 在异常发生后进行调用，应用可以设置回调函数，并在回调中保存异常现场信息等信息，异常现场等信息可以通过 `getCrashXXX` 接口获取
 
 使用示例：
 
-	static int exception_callback_handler() {
-		NSLog(@"Crash occur in the app");
-		[... setAttachLog:@""];
-		return 1;
-	}
+```objective-c
+static int exception_callback_handler() {
+	NSLog(@"Crash occur in the app");
+	[... setAttachLog:@""];
+	return 1;
+}
 
-`exp_call_back_func=&exception_callback_handler;`
+exp_call_back_func=&exception_callback_handler;
 
+```
 ## 配置符号表
 
 Bugly 提供了两种配置符号表的方式
@@ -112,7 +126,7 @@ Bugly 提供了两种配置符号表的方式
 
 ### 手动上传
 
-关于手动上传符号表，请参阅 [手动符号表配置指南](http://bugly.qq.com)
+关于手动上传符号表，请参阅 [手动符号表配置指南](http://bugly.qq.com/iossymbol)
 
 
 ### 更多功能请查阅 Bugly 头文件`CrashReporter.h`
