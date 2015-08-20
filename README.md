@@ -24,7 +24,7 @@ pod 'Bugly'
 
 ### 1.2 手动集成方式
 
-* 下载并解压 [iOS SDK](http://bugly.qq.com/sdkdown?id=05deedf8-796e-4e95-9d1d-3bb3d9890e78 "iOS SDK") 
+* 下载并解压 [iOS SDK](http://bugly.qq.com/whitebook "iOS SDK") 
 * 拖拽`Bugly_libc++`目录下的`Bugly.framework`文件到 Xcode 工程内 （请勾选`Copy items if needed`选项）
 * 添加依赖库
 	- `SystemConfiguration.framework`
