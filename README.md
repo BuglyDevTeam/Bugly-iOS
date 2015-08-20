@@ -174,6 +174,43 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 
 **如果上述关键步骤 log 都能找到，即可到 Bugly 官网 *崩溃列表* 处查看新上报的异常信息了**
 
+- 有其他第三方 SDK 抢注了系统崩溃捕获接口
+
+`<WARN> Bugly: Note: there is another uncaught exception handler ...`
+
+**如果在日志中见到上行记录，请先手动调用存在崩溃捕获能力的第三方 SDK 的关闭接口，最后再初始化Bugly**
+
+**如示例：关闭 友盟，TalkingData，Testin 相关能力的代码：**
+
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	//    友盟
+	    [MobClick setCrashReportEnabled:NO];
+	    [MobClick startWithAppkey:@"UMENG_APPKEY"];
+	//    talking data
+	    [TalkingData sessionStarted:@"TALKINGDATA_APPID" withChannelId:nil];
+	    [TalkingData setExceptionReportEnabled:NO];
+	    [TalkingData setSignalReportEnabled:NO];
+	//    testin
+	    TestinConfig *config = [TestinConfig defaultConfig];
+	    config.enabledMonitorException = NO;
+	    [TestinAgent init:@"TESTIN_APPID" channel:nil config:config];
+	//    初始化Bugly
+	    [[CrashReporter sharedInstance] enableLog:YES];
+	    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
+	    return YES;
+	}
+	
+**如果第三方SDK不在上述例子中，请查阅第三方SDK头文件或文档找到相应关闭接口进行关闭，如找不到相应接口，请在初始化Bugly前，调用 `enableSignalHandlerCheckable` 接口开启 Bugly 的检测能力**
+
+	//    初始化Bugly
+	    [[CrashReporter sharedInstance] enableSignalHandlerCheckable:YES];
+	    [[CrashReporter sharedInstance] enableLog:YES];
+	    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
+	    return YES;
+	}
+	
+**如按照上述步骤确认成功仍无法正常上报，请联系客服协助解决**
+
 
 ## 高级功能
 
