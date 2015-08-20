@@ -222,16 +222,22 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 }
 ```
 	
-**如果第三方SDK不在上述例子中，请查阅第三方SDK头文件或文档找到相应关闭接口进行关闭，如找不到相应接口，请在初始化Bugly前，调用 `enableSignalHandlerCheckable` 接口开启 Bugly 的检测能力**
+**如果第三方SDK不在上述例子中，请查阅第三方SDK头文件或文档找到相应关闭接口进行关闭，如找不到相应接口，请尝试延迟初始化 Bugly**
 
 **Objective-C**
 
 ```objective-c
-//    初始化Bugly
-[[CrashReporter sharedInstance] enableSignalHandlerCheckable:YES];
-[[CrashReporter sharedInstance] enableLog:YES];
-[[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
-return YES;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	 //第三方SDK初始化
+	 
+	 //延迟3秒初始化Bugly
+    [self performSelector:@selector(setupBugly) withObject:nil afterDelay:3];
+    return YES;
+}
+
+- (void)setupBugly {
+    [[CrashReporter sharedInstance] enableLog:YES];
+    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
 }
 ```
 	
