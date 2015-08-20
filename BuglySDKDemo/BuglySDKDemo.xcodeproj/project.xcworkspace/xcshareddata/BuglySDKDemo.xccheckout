@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D799CCBE-0D94-4DE9-8313-9ED14DA9D782</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>da6eaa14-0624-e84a-8163-f226403b6fb0++3494</key>
+		<string>https://tc-svn.tencent.com/mqq/mqq_wxrdm_rep/rdm_proj/trunk/src/RQD_SPLIT_IOS</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>da6eaa14-0624-e84a-8163-f226403b6fb0++3494</key>
+		<string>RQD_SPLIT_IOS/</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>da6eaa14-0624-e84a-8163-f226403b6fb0++3494</key>
+		<string>https://tc-svn.tencent.com/mqq/mqq_wxrdm_rep</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://tc-svn.tencent.com/mqq/mqq_wxrdm_rep/rdm_proj/trunk/src/RQD_SPLIT_IOS</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>da6eaa14-0624-e84a-8163-f226403b6fb0++3494</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>da6eaa14-0624-e84a-8163-f226403b6fb0++3494</string>
+			<key>IDESourceControlWCCName</key>
+			<string>RQD_SPLIT_IOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>

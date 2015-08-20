@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.requires_arc = false  
   s.platform     = :ios
   s.ios.deployment_target = '6.0'
-  s.vendored_frameworks ='Bugly.framework'
+  s.vendored_frameworks ='Bugly_libc++/Bugly.framework'
   s.source_files = 'Bugly.framework/Headers/*.h'
   s.frameworks = 'SystemConfiguration','Security'
   s.library = 'c++','z'
