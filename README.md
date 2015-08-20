@@ -51,40 +51,44 @@ pod 'Bugly'
 
 在工程`AppDelegate.m`的`application didFinishLaunch...`方法中初始化 Bugly
 
-```objective-c
+**Objective-C**
 
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-		return YES;
-	}
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+	return YES;
+}
 ```
+**Swift**
 
 ```swift
-
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
-		return true
-	}
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
+	return true
+}
 ```
 
 ### 3.iOS Extension 初始化
 
 如果工程内包含 Extension Target,则初始化方法需要带上共用的 App Group 标识符
 
-```objective-c
+**Objective-C**
 
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"  applicationGroupIdentifier:@"此处替换为你的App Group标识符"];
-		return YES;
-	}
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"  applicationGroupIdentifier:@"此处替换为你的App Group标识符"];
+	return YES;
+}
 ```
 
 **Swift**
 
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId" applicationGroupIdentifier:"此处替换为你的App Group标识符")
-		return true
-	}
+```swift
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId" applicationGroupIdentifier:"此处替换为你的App Group标识符")
+	return true
+}
+```
 
 关于 Extension 的接入流程请参见 [Bugly iOS Extension SDK 接入指南](./advanced/EXTENSION.md)
 
@@ -97,45 +101,51 @@ pod 'Bugly'
 
 Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App 代码中手动构建一个异常,如下述例子
 
-```objective-c
+**Objective-C**
 
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
-		return YES;
-	}
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+	[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
+	return YES;
+}
 ```
 
 **Swift**
 
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
-		NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
-		return true
-	}
+```swift
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
+	NSObject.performSelector("crash", withObject: nil, afterDelay: 2.0)
+	return true
+}
+```
 
 **请在初始化 Bugly 代码前打开 log 输出**
 
 `- (void)enableLog:(BOOL)enabled;`
 
-```objective-c
+**Objective-C**
 
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		[[CrashReporter sharedInstance] enableLog:YES];
-		[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
-		[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
-		return YES;
-	}
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	[[CrashReporter sharedInstance] enableLog:YES];
+	[[CrashReporter sharedInstance] installWithAppId:@"此处替换为你的AppId"];
+	[self performSelector:@selector(crash) withObject:nil afterDelay:3.0];
+	return YES;
+}
 ```
 
 **Swift**
 
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-		CrashReporter.sharedInstance().enableLog(true)
-		CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
-		NSObject.performSelector("crash", withObject: nil, afterDelay: 3.0)
-		return true
-	}
+```swift
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	CrashReporter.sharedInstance().enableLog(true)
+	CrashReporter.sharedInstance().installWithAppId("此处替换为你的AppId")
+	NSObject.performSelector("crash", withObject: nil, afterDelay: 3.0)
+	return true
+}
+```
 	
 **准备步骤**
 
@@ -190,37 +200,39 @@ Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App
 
 **如示例：关闭 友盟，TalkingData，Testin 相关能力的代码：**
 
-```objective-c
+**Objective-C**
 
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	//    友盟
-	    [MobClick setCrashReportEnabled:NO];
-	    [MobClick startWithAppkey:@"UMENG_APPKEY"];
-	//    talking data
-	    [TalkingData sessionStarted:@"TALKINGDATA_APPID" withChannelId:nil];
-	    [TalkingData setExceptionReportEnabled:NO];
-	    [TalkingData setSignalReportEnabled:NO];
-	//    testin
-	    TestinConfig *config = [TestinConfig defaultConfig];
-	    config.enabledMonitorException = NO;
-	    [TestinAgent init:@"TESTIN_APPID" channel:nil config:config];
-	//    初始化Bugly
-	    [[CrashReporter sharedInstance] enableLog:YES];
-	    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
-	    return YES;
-	}
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    友盟
+    [MobClick setCrashReportEnabled:NO];
+    [MobClick startWithAppkey:@"UMENG_APPKEY"];
+//    talking data
+    [TalkingData sessionStarted:@"TALKINGDATA_APPID" withChannelId:nil];
+    [TalkingData setExceptionReportEnabled:NO];
+    [TalkingData setSignalReportEnabled:NO];
+//    testin
+    TestinConfig *config = [TestinConfig defaultConfig];
+    config.enabledMonitorException = NO;
+    [TestinAgent init:@"TESTIN_APPID" channel:nil config:config];
+//    初始化Bugly
+    [[CrashReporter sharedInstance] enableLog:YES];
+    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
+    return YES;
+}
 ```
 	
 **如果第三方SDK不在上述例子中，请查阅第三方SDK头文件或文档找到相应关闭接口进行关闭，如找不到相应接口，请在初始化Bugly前，调用 `enableSignalHandlerCheckable` 接口开启 Bugly 的检测能力**
 
-```objective-c
+**Objective-C**
 
-	//    初始化Bugly
-	    [[CrashReporter sharedInstance] enableSignalHandlerCheckable:YES];
-	    [[CrashReporter sharedInstance] enableLog:YES];
-	    [[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
-	    return YES;
-	}
+```objective-c
+//    初始化Bugly
+[[CrashReporter sharedInstance] enableSignalHandlerCheckable:YES];
+[[CrashReporter sharedInstance] enableLog:YES];
+[[CrashReporter sharedInstance] installWithAppId:@"BUGLY_APPID"];
+return YES;
+}
 ```
 	
 **如按照上述步骤确认成功仍无法正常上报，请联系客服协助解决**
