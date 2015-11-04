@@ -1,12 +1,12 @@
 //
 //  CrashReporter.h
-//  Analytics
+//  Bugly Version: 1.4.0
 //
-//  Copyright (c) 2014年 Tencent All rights reserved.
+//  Copyright (c) 2015年 Tencent All rights reserved.
 //
 
 /// ------ 崩溃回调函数 ------
-// 在崩溃发生后进行调用，应用可以设置回调函数，并在回调中保存崩溃现场信息等信息，崩溃现场等信息可以通过 getCrashXXX 接口获取
+// 在崩溃发生后进行调用，应用可以设置回调函数，并在回调中保存崩溃现场信息等信息，崩溃现场等信息可以通过getCrashXXX 接口获取
 // 注意：请不要在此回调函数中执行耗时较长的操作
 // Sample:
 //
@@ -19,7 +19,7 @@
 //
 // 你可以在初始化之后设置回调函数
 //
-//
+// [... installWithAppId:BUGLY_APP_ID];
 // exp_call_back_func=&exception_callback_handler;
 //
 
@@ -30,7 +30,7 @@
 typedef int (*exp_callback) ();
 
 extern exp_callback exp_call_back_func;
-#pragma mark - 
+#pragma mark -
 
 @interface CrashReporter : NSObject
 
@@ -41,35 +41,26 @@ extern exp_callback exp_call_back_func;
 ///--------------------------------
 
 /**
- *  Enable the sdk print the log info, default is NO
+ *  是否开启sdk日志打印, 默认为No, 不打印
  *
  *  @param enabled
  */
 - (void)enableLog:(BOOL)enabled;
 
 /**
- *  Enable the sdk catch the NSException of the application, default is NO.
- *  You can disable it before init the sdk if you don't need this feature.
+ *  是否开启主线程卡顿监控上报功能，默认值YES.
  *
- *  @param enable
- */
-- (void)enableNSExceptionReporter:(BOOL) enable;
-
-/**
- *  Enable the sdk catch the signal error in the process of application, default is YES.
- *  You can disable it before init the sdk if you don't need this feature.
- *
- *  @param enable
- */
-- (void)enableSignalErrorReporter:(BOOL) enable;
-
-/**
- *  Enable the sdk monitor and report the non smooth frame in the main thread, default is NO.
- *
- *  @param monitor enable the monitor thread, default is NO
- *  @param reporter enable data auto report, default is NO
+ *  @param 是否开启卡顿监控，默认值YES
+ *  @param 是否开启卡顿上报，默认值NO
  */
 - (void)enableBlockMonitor:(BOOL) monitor autoReport:(BOOL) reporter;
+
+/**
+ *    @brief  设置卡顿场景判断的Runloop超时阀值，Runloop超时 > 阀值判定为卡顿场景
+ *
+ *    @param aRunloopTimeout 卡顿阀值，单位毫秒(ms)，默认值 3000 ms，可以在 1000 ms < X < 15000 ms 之间设置
+ */
+- (void)setBlockMonitorJudgementLoopTimeout:(NSTimeInterval) aRunloopTimeout;
 
 /**
  *    @brief  设置渠道标识, 默认为空值
@@ -98,6 +89,16 @@ extern exp_callback exp_call_back_func;
  */
 - (void)setBundleVer:(NSString *)bundleVer;
 
+/**
+ *    @brief  触发一个ObjC的异常
+ */
+- (void)testThrowNSException;
+
+/**
+ *    @brief  触发一个错误信号
+ */
+- (void)testSignalError;
+
 ///--------------------------------
 /// @name configuration
 ///--------------------------------
@@ -112,9 +113,22 @@ extern exp_callback exp_call_back_func;
 - (BOOL)installWithAppId:(NSString *)appId;
 
 /**
- *    @brief  卸载崩溃捕获监听
+ *    @brief  初始化SDK接口并启动崩溃捕获上报功能
+ *
+ *    @param appId 应用标识, 在平台注册时分配的应用标识
+ *    @param identifier AppGroup标识
+ *
+ *    @return
  */
-- (void)uninstall;
+- (BOOL)installWithAppId:(NSString *)appId applicationGroupIdentifier:(NSString *)identifier;
+
+/**
+ *  @brief 处理 WatchKit Extension 上报的异常信息
+ *
+ *    @param userInfo 异常信息
+ *    @param reply    回复信息
+ */
+- (void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply;
 
 /**
  *    @brief  设置用户标识, SDK默认值为10000
@@ -124,29 +138,27 @@ extern exp_callback exp_call_back_func;
 - (void)setUserId:(NSString *)userid;
 
 /**
- *    @brief 自定义应用Bundle Identifier
- *    如需修改设置, 请在初始化方法之前调用设置
+ *    @brief  设置场景标签, 如支付、后台等
  *
- *    @param bundleId 应用Bundle Identifier
+ *    @param tag 自定义的场景标签Id, 可以在服务平台页面进行配置
  */
-- (void)setBundleId:(NSString *)bundleId;
+- (void)setSceneTag:(NSUInteger) tag;
 
 /**
- *    @brief  上报Unity的C#异常的信息
+ *    @brief  添加场景关键数据
  *
- *    @param name   C#异常的名称
- *    @param reason C#异常的原因
- *    @param stacks C#异常的堆栈
+ *    @param value 内容, 最大长度限定为512字符
+ *    @param key 自定义key(只允许字母和数字), 支持在服务平台页面进行检索
  */
-- (void)reportUnityExceptionWithName:(NSString *)aName reason:(NSString *)aReason stack:(NSString *)stacks;
+- (void)setSceneValue:(NSString *) value forKey:(NSString *) key;
 
-/**
- *    @brief  上报一个ObjC的异常信息
- *
- *    @param anException 上报的OC异常, sdk会处理其name、reason属性, 以及callStackSymbols
- *    @param aMessage    附带的信息
- */
-- (void)reportException:(NSException *)anException message:(NSString *) aMessage;
+- (void)removeSceneValueForKey:(NSString *) key;
+
+- (void)removeAllSceneValues;
+
+- (NSString *)sceneValueForKey:(NSString *) key;
+
+- (NSDictionary *)allSceneValues;
 
 /**
  *    @brief  为一个会话周期(应用启动到进程退出)添加关键事件流程, 以记录关键场景数据
@@ -154,52 +166,60 @@ extern exp_callback exp_call_back_func;
  *
  *    @param event
  */
-- (void)addSessionEvent:(NSString *)event;
+- (void)sessionEvent:(NSString *)event;
 
 /**
- *    @brief  设置场景标签, 如支付、后台等
+ *    @brief  上报已捕获的异常信息
  *
- *    @param sceneId 自定义的场景标签Id, 可以在服务平台页面进行配置
+ *    @param anException 异常对象
+ *    @param aReason    异常发生的原因
+ *    @param dict        异常发生时的附加数据
  */
-- (void)setScene:(NSUInteger) sceneId;
+- (void)reportException:(NSException *) anException reason:(NSString *) aReason extraInfo:(NSDictionary *) dict;
 
 /**
- *    @brief  添加场景关键数据
+ *    @brief  上报错误
  *
- *    @param value 内容, 最大长度限定为200字符
- *    @param key 自定义key(只允许字母和数字), 支持在服务平台页面进行检索
+ *    @param anError  错误对象
+ *    @param aReason 错误发生的原因
+ *    @param dict     错误发生时的附加数据
  */
-- (void)addSceneValue:(NSString *) value forKey:(NSString *) key;
+- (void)reportError:(NSError *) anError reason:(NSString *) aReason extraInfo:(NSDictionary *) dict;
 
 /**
- *    @brief  检查是否存在崩溃信息并执行异步上报
+ *    @brief  上报自定义异常信息
  *
- *    @return 是否触发异步上报任务
+ *    @param category     类别，C# ＝ 4，JS ＝ 5，Lua = 6
+ *    @param aName       异常名称
+ *    @param aReason     异常发生的原因
+ *    @param aStackTrace 异常堆栈，换行使用\n连接
+ *    @param dict         异常发生时附加数据
+ *    @param terminate    是否中止应用
  */
-- (BOOL)checkAndUpload;
+- (void)reportException:(NSUInteger) category name:(NSString *) aName reason:(NSString *) aReason callStack:(NSString *) aStackTrace extraInfo:(NSDictionary *) dict terminateApp:(BOOL) terminate;
 
 /**
- *  检查本地是否有卡顿数据并执行上报
+ *    @brief  上报一个ObjC的异常信息
  *
- *  @return YES if start the reporter
+ *    @param anException 上报的OC异常, sdk会处理其name、reason属性, 以及callStackSymbols
+ *    @param aMessage    附带的信息
+ *
+ *    @deprecated This method is deprecated starting in version 1.3.0
+ *    @note Please use @code reportException:reason:extraInfo: @endcode instead.
  */
-- (BOOL)checkBlockDataExistAndReport;
-
-- (BOOL)checkSignalHandler;
-
-- (BOOL)checkNSExceptionHandler;
-
-- (BOOL)enableSignalHandlerCheckable:(BOOL)enable;
+- (void)reportException:(NSException *)anException message:(NSString *) aMessage __deprecated_msg("1.3.0");
 
 /**
- *    @brief  运行时启用卡顿监控线程
+ *    @brief  上报Unity的C#异常的信息
+ *
+ *    @param name   C#异常的名称
+ *    @param reason C#异常的原因
+ *    @param stacks C#异常的堆栈
+ *  
+ *    @note This method is deprecated starting in version 1.3.0.
+ *    @note Please use @code reportException:name:reason:stackTrace:extraInfo:terminateApp: @endcode instead. The category is 4 for Unity C# exception
  */
-- (void)startBlockMonitor;
-
-/**
- *    @brief  运行时停止卡顿监控线程
- */
-- (void)stopBlockMonitor;
+- (void)reportUnityExceptionWithName:(NSString *)aName reason:(NSString *)aReason stack:(NSString *)stacks __deprecated_msg("1.3.0");
 
 /**
  *  @brief 查看SDK的版本
@@ -207,6 +227,16 @@ extern exp_callback exp_call_back_func;
  *  @return SDK的版本信息
  */
 - (NSString *)sdkVersion;
+
+/**
+ *    @brief  当卡顿功能开启时，可调用此接口在运行时启用卡顿监控线程
+ */
+- (void)startBlockMonitor;
+
+/**
+ *    @brief  当卡顿功能开启时，可调用此接口在运行时停止卡顿监控线程
+ */
+- (void)stopBlockMonitor;
 
 /**
  *    @brief  获取SDK记录保存的设备标识
@@ -225,31 +255,11 @@ extern exp_callback exp_call_back_func;
 /**
  *    @brief 崩溃发生时, 添加场景关键数据。 在回调方法中调用
  *
- *    @param key
- *    @param value
+ *    @param value 内容, 最大长度限定为512字符
+ *    @param key 自定义key
  */
 - (void)setUserData:(NSString *)key value:(NSString *)value;
 
-//*************一些和捕获以及上报相关的接口*************
-
-//设置异常合并上报，当天同一个异常只会上报第一次，后续合并保存并在第二天才会上报
-- (void)setExpMergeUpload:(BOOL)isMerge;
-
-//设置进程内进行地址还原
-//注意：当Xcode的编译设置Strip Style为ALL Symbols时，该设置会导致还原出的应用堆栈出现错误，如果您的应用设置这个选项请不要调用这个接口
-- (void)setEnableSymbolicateInProcess:(BOOL)enable;
-
-//设置crash过滤，以shortname为基准（例如SogouInput）,如果包括则不进行记录和上报
-- (BOOL)setExcludeShortName:(NSArray *)shortNames;
-//设置只上报存在关键字的crash列表
-- (BOOL)setIncludeShortName:(NSArray *)shortNames;
-
-//上次关闭是否因为crash,用于启动后检查上次是否是发生了crash，以便做特殊提示
-- (BOOL)isLastCloseByCrash;
-//前面的crash过滤（Include和Exclude）影响isLastCloseByCrash
-//设置NO之后， 如果crash被过滤不进行记录和上报，那么isLastCloseByCrash在下次启动返回NO
-//如果设置为YES， 那么crash被过滤不进行记录和上报，但下次启动isLastCloseByCrash仍旧会返回YES
-- (BOOL)setLastCloseByIncludExclued:(BOOL)enable;
 
 //***********在应用发生崩溃后，如果在exp_call_back_func回调函数中需要获取当前崩溃的信息，可以从这些接口获取***********
 
@@ -281,12 +291,90 @@ extern exp_callback exp_call_back_func;
  */
 - (NSString *)getCrashLog;
 
-// *****  越狱情况API支持, AppStore版本请不要调用 *****
+/**
+ *    @brief  检查是否存在崩溃信息并执行异步上报
+ *
+ *    @return 是否触发异步上报任务
+ */
+- (BOOL)checkAndUpload;
 
+/**
+ *    @brief  卸载崩溃捕获监听
+ */
+- (void)uninstall;
+
+/**
+ *    @brief 自定义应用Bundle Identifier
+ *    如需修改设置, 请在初始化方法之前调用设置
+ *
+ *    @param bundleId 应用Bundle Identifier
+ */
+- (void)setBundleId:(NSString *)bundleId;
+
+- (void)cleanUncaughtExceptionHandler:(BOOL) handlerNullable signalHandler:(BOOL) signalHandlerNullable;
+
+/**
+ *  检查本地是否有卡顿数据并执行上报
+ *
+ *  @return YES if start the reporter
+ */
+- (BOOL)checkBlockDataExistAndReport;
+
+- (BOOL)checkSignalHandler;
+
+- (BOOL)checkNSExceptionHandler;
+
+- (BOOL)enableSignalHandlerCheckable:(BOOL)enable;
+
+//*************一些和捕获以及上报相关的接口*************
+//设置异常合并上报，当天同一个异常只会上报第一次，后续合并保存并在第二天才会上报
+- (void)setExpMergeUpload:(BOOL)isMerge;
+
+//设置进程内进行地址还原, 默认开启
+//注意：当Xcode的编译设置Strip Style为ALL Symbols时，该设置会导致还原出的应用堆栈出现错误，如果您的应用设置这个选项请不要调用这个接口，请调用此接口关闭进程内还原
+- (void)setEnableSymbolicateInProcess:(BOOL)enable;
+
+//设置crash过滤，以shortname为基准（例如SogouInput）,如果包括则不进行记录和上报
+- (BOOL)setExcludeShortName:(NSArray *)shortNames;
+//设置只上报存在关键字的crash列表
+- (BOOL)setIncludeShortName:(NSArray *)shortNames;
+
+//上次关闭是否因为crash,用于启动后检查上次是否是发生了crash，以便做特殊提示
+- (BOOL)isLastCloseByCrash;
+//前面的crash过滤（Include和Exclude）影响isLastCloseByCrash
+//设置NO之后， 如果crash被过滤不进行记录和上报，那么isLastCloseByCrash在下次启动返回NO
+//如果设置为YES， 那么crash被过滤不进行记录和上报，但下次启动isLastCloseByCrash仍旧会返回YES
+- (BOOL)setLastCloseByIncludExclued:(BOOL)enable;
+
+/**
+ *  是否开启异常捕获上报，默认值YES.
+ *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
+ *
+ *  @param enable
+ */
+- (void)enableNSExceptionReporter:(BOOL) enable;
+
+/**
+ *  是否开启错误信号捕获上报，默认值YES.
+ *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
+ *
+ *  @param enable
+ */
+- (void)enableSignalErrorReporter:(BOOL) enable;
+
+// *****  越狱情况API支持, AppStore版本请不要调用 *****
 // 使用mach exception捕获异常, 捕获的错误比注册sigaction更全面，默认关闭
 - (void)setUserMachHandler:(BOOL)useMach;
 
 // 一般用于越狱产品，可以重新设置数据库到特定路径
 - (BOOL)resetDBPath:(NSString *)newPath;
+// ****
+/**
+ *  是否开启ATS，默认值YES.
+ *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
+ *
+ *  @param enable
+ */
+- (void)enableAppTransportSecurity:(BOOL)enable;
 
 @end

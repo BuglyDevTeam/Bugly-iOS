@@ -40,6 +40,9 @@ extern void __setDeviceId(const char *deviceId);
 
 extern void __setCrashAutoThrow(bool autoThrow);
     
+extern void __buglySetSceneTag(int tag);
+    
+extern void __buglySetSceneKeyValue(const char * key, const char * value);
 #ifdef __cplusplus
 }
 #endif
@@ -48,7 +51,7 @@ extern void __setCrashAutoThrow(bool autoThrow);
 
 @interface Unity : NSObject
 
-@property (nonatomic, assign) BOOL crashAutoThrow;
+@property (nonatomic, assign, getter=isCrashAutoThrow) BOOL crashAutoThrow;
 
 + (Unity *)sharedInstance;
 
@@ -57,6 +60,7 @@ extern void __setCrashAutoThrow(bool autoThrow);
 - (void)addCallback:(NSString *)callbackName forObject:(NSString *)objectName withKey:(NSString *)callbackKey;
 - (NSArray *)callbackForKey:(NSString *)key;
 
+- (void)reportExceptionWithName:(NSString *)aName reason:(NSString *) aReason stackTrace:(NSString *) aStackTrace;
 @end
 
 //#endif
