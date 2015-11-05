@@ -32,10 +32,12 @@ typedef int (*exp_callback) ();
 extern exp_callback exp_call_back_func;
 #pragma mark -
 
+#pragma mark - Interface
 @interface CrashReporter : NSObject
 
 + (CrashReporter *)sharedInstance;
 
+#pragma mark - Configuration 初始化之前设置
 ///--------------------------------
 /// @name configuration
 ///--------------------------------
@@ -48,12 +50,11 @@ extern exp_callback exp_call_back_func;
 - (void)enableLog:(BOOL)enabled;
 
 /**
- *  是否开启主线程卡顿监控上报功能，默认值YES.
+ *  是否开启主线程卡顿监控上报功能，默认值NO.
  *
- *  @param 是否开启卡顿监控，默认值YES
- *  @param 是否开启卡顿上报，默认值NO
+ *  @param 是否开启卡顿上报
  */
-- (void)enableBlockMonitor:(BOOL) monitor autoReport:(BOOL) reporter;
+- (void)enableBlockMonitor:(BOOL) enable;
 
 /**
  *    @brief  设置卡顿场景判断的Runloop超时阀值，Runloop超时 > 阀值判定为卡顿场景
@@ -72,15 +73,6 @@ extern exp_callback exp_call_back_func;
 - (void)setChannel:(NSString *)channel;
 
 /**
- *    @brief  设置设备标识, SDK默认使用CFUDID标识设备
- *    注意: 平台依据deviceId统计用户数, 如果设置修改, 请保证其唯一性
- *
- *    如需修改设置, 请在初始化方法之前调用设置
- *    @param deviceId
- */
-- (void)setDeviceId:(NSString *)deviceId;
-
-/**
  *    @brief  设置应用的版本，在初始化之前调用。
  *    SDK默认读取Info.plist文件中的版本信息,并组装成CFBundleShortVersionString(CFBundleVersion)格式
  *    如需修改设置, 请在初始化方法之前调用设置
@@ -90,19 +82,20 @@ extern exp_callback exp_call_back_func;
 - (void)setBundleVer:(NSString *)bundleVer;
 
 /**
- *    @brief  触发一个ObjC的异常
+ *    @brief  设置设备标识, SDK默认使用CFUDID标识设备
+ *    注意: 平台依据deviceId统计用户数, 如果设置修改, 请保证其唯一性
+ *
+ *    如需修改设置, 请在初始化方法之前调用设置
+ *    @param deviceId
  */
-- (void)testThrowNSException;
-
-/**
- *    @brief  触发一个错误信号
- */
-- (void)testSignalError;
+- (void)setDeviceId:(NSString *)deviceId;
 
 ///--------------------------------
 /// @name configuration
 ///--------------------------------
+#pragma mark -
 
+#pragma mark -
 /**
  *    @brief  初始化SDK接口并启动崩溃捕获上报功能
  *
@@ -113,10 +106,10 @@ extern exp_callback exp_call_back_func;
 - (BOOL)installWithAppId:(NSString *)appId;
 
 /**
- *    @brief  初始化SDK接口并启动崩溃捕获上报功能
+ *    @brief  初始化SDK接口并启动崩溃捕获上报功能, 如果你的App包含Application Extension或App Watch扩展，可以采用此方法初始化
  *
  *    @param appId 应用标识, 在平台注册时分配的应用标识
- *    @param identifier AppGroup标识
+ *    @param identifier AppGroup标识, 开启App-Groups功能时, 定义的Identifier
  *
  *    @return
  */
@@ -131,7 +124,7 @@ extern exp_callback exp_call_back_func;
 - (void)handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply;
 
 /**
- *    @brief  设置用户标识, SDK默认值为10000
+ *    @brief  设置用户标识, SDK默认值为Unknown
  *    建议在初始化之前使用App本地缓存的用户标识设置, 在用户登录态验证通过或切换时调用进行修改
  *    @param userid
  */
@@ -220,7 +213,9 @@ extern exp_callback exp_call_back_func;
  *    @note Please use @code reportException:name:reason:stackTrace:extraInfo:terminateApp: @endcode instead. The category is 4 for Unity C# exception
  */
 - (void)reportUnityExceptionWithName:(NSString *)aName reason:(NSString *)aReason stack:(NSString *)stacks __deprecated_msg("1.3.0");
+#pragma mark -
 
+#pragma mark - Interface More ...
 /**
  *  @brief 查看SDK的版本
  *
@@ -244,6 +239,42 @@ extern exp_callback exp_call_back_func;
  *    @return
  */
 - (NSString *)deviceIdentifier;
+#pragma mark -
+
+#pragma mark - Test case for make the crash
+/**
+ *    @brief  触发一个ObjC的异常
+ */
+- (void)testThrowNSException;
+
+/**
+ *    @brief  触发一个错误信号
+ */
+- (void)testSignalError;
+#pragma mark -
+
+/**
+ *    @brief 自定义应用Bundle Identifier
+ *    如需修改设置, 请在初始化方法之前调用设置
+ *
+ *    @param bundleId 应用Bundle Identifier
+ */
+- (void)setBundleId:(NSString *)bundleId;
+
+/**
+ *    @brief 清理向系统注册的UncaughtException处理函数和Signal处理函数
+ *    注意: 如果你不知道此接口方法的作用，请勿乱用
+ */
+- (void)cleanUncaughtExceptionAndSignalHandler;
+
+- (BOOL)checkSignalHandler;
+
+- (BOOL)checkNSExceptionHandler;
+
+- (BOOL)enableSignalHandlerCheckable:(BOOL)enable;
+
+
+//***********在应用发生崩溃后，如果在exp_call_back_func回调函数中需要获取当前崩溃的信息，可以从这些接口获取***********
 
 /**
  *    @brief  崩溃发生时, 添加附件内容。 在回调方法中调用
@@ -259,9 +290,6 @@ extern exp_callback exp_call_back_func;
  *    @param key 自定义key
  */
 - (void)setUserData:(NSString *)key value:(NSString *)value;
-
-
-//***********在应用发生崩溃后，如果在exp_call_back_func回调函数中需要获取当前崩溃的信息，可以从这些接口获取***********
 
 /**
  *    @brief  获取当前捕获到Obj-C异常
@@ -292,26 +320,19 @@ extern exp_callback exp_call_back_func;
 - (NSString *)getCrashLog;
 
 /**
+ *  是否开启ATS，默认值YES.
+ *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
+ *
+ *  @param enable
+ */
+- (void)enableAppTransportSecurity:(BOOL)enable;
+
+/**
  *    @brief  检查是否存在崩溃信息并执行异步上报
  *
  *    @return 是否触发异步上报任务
  */
 - (BOOL)checkAndUpload;
-
-/**
- *    @brief  卸载崩溃捕获监听
- */
-- (void)uninstall;
-
-/**
- *    @brief 自定义应用Bundle Identifier
- *    如需修改设置, 请在初始化方法之前调用设置
- *
- *    @param bundleId 应用Bundle Identifier
- */
-- (void)setBundleId:(NSString *)bundleId;
-
-- (void)cleanUncaughtExceptionHandler:(BOOL) handlerNullable signalHandler:(BOOL) signalHandlerNullable;
 
 /**
  *  检查本地是否有卡顿数据并执行上报
@@ -320,13 +341,14 @@ extern exp_callback exp_call_back_func;
  */
 - (BOOL)checkBlockDataExistAndReport;
 
-- (BOOL)checkSignalHandler;
+/**
+ *    @brief  卸载崩溃捕获监听
+ */
+- (void)uninstall;
 
-- (BOOL)checkNSExceptionHandler;
-
-- (BOOL)enableSignalHandlerCheckable:(BOOL)enable;
-
+- (void)enableBlockMonitor:(BOOL) monitor autoReport:(BOOL) reporter __deprecated_msg("Replace by enableBlockMonitor:");
 //*************一些和捕获以及上报相关的接口*************
+
 //设置异常合并上报，当天同一个异常只会上报第一次，后续合并保存并在第二天才会上报
 - (void)setExpMergeUpload:(BOOL)isMerge;
 
@@ -346,22 +368,6 @@ extern exp_callback exp_call_back_func;
 //如果设置为YES， 那么crash被过滤不进行记录和上报，但下次启动isLastCloseByCrash仍旧会返回YES
 - (BOOL)setLastCloseByIncludExclued:(BOOL)enable;
 
-/**
- *  是否开启异常捕获上报，默认值YES.
- *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
- *
- *  @param enable
- */
-- (void)enableNSExceptionReporter:(BOOL) enable;
-
-/**
- *  是否开启错误信号捕获上报，默认值YES.
- *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
- *
- *  @param enable
- */
-- (void)enableSignalErrorReporter:(BOOL) enable;
-
 // *****  越狱情况API支持, AppStore版本请不要调用 *****
 // 使用mach exception捕获异常, 捕获的错误比注册sigaction更全面，默认关闭
 - (void)setUserMachHandler:(BOOL)useMach;
@@ -369,12 +375,5 @@ extern exp_callback exp_call_back_func;
 // 一般用于越狱产品，可以重新设置数据库到特定路径
 - (BOOL)resetDBPath:(NSString *)newPath;
 // ****
-/**
- *  是否开启ATS，默认值YES.
- *  如果你确定不需要此功能，你可以在初始化sdk之前调用此接口禁用功能.
- *
- *  @param enable
- */
-- (void)enableAppTransportSecurity:(BOOL)enable;
 
 @end

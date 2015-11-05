@@ -1,10 +1,10 @@
 PODS:
-  - Bugly (1.4.0)
+  - Bugly (1.4.1)
 
 DEPENDENCIES:
   - Bugly
 
 SPEC CHECKSUMS:
-  Bugly: 682e56dcc62633635e22d75d0968fa5a372bfce3
+  Bugly: 2f062c00a78566052c13d9b4b11a03ac0f1ae1b8
 
 COCOAPODS: 0.39.0

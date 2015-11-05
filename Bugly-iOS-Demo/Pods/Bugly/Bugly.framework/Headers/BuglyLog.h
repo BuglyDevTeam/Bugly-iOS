@@ -35,6 +35,14 @@ typedef NS_ENUM(NSUInteger, BLYLogLevel) {
 #define BLogDebug(fmt, ...)   BLYLOG_MACRO(BLYLogLevelDebug, fmt, ##__VA_ARGS__)
 #define BLogVerbose(fmt, ...) BLYLOG_MACRO(BLYLogLevelVerbose, fmt, ##__VA_ARGS__)
 
+/*
+ 直接把NSLog替换成相应级别的BLog即可，如下述例子,替换成Info级别的
+ 
+ NSLog(@"test %@",@"string");
+ 变成
+ BLogInfo(@"test %@",@"string");
+*/
+
 #pragma mark - Interface
 @interface BuglyLog : NSObject
 
