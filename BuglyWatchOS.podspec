@@ -7,10 +7,9 @@ Pod::Spec.new do |s|
   s.license      = { :type => "Copyright", :text => "©2015 Tencent.com"}
   s.author       = { "Tencent" => "bugly@tencent.com" }
   s.source       = { :http => "https://raw.githubusercontent.com/BuglyDevTeam/Bugly-iOS/master/release/BuglyWatchOS-1.0.zip" }
-  s.requires_arc = false  
+  s.requires_arc = true  
   s.platform     = :watchos
   s.watchos.deployment_target = '2.0'
-  s.vendored_frameworks ='BuglyWatchOS.framework'
   s.source_files = 'BuglyWatchOS.framework/Headers/*.h'
   s.license      = {
     :type => 'Copyright',
