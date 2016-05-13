@@ -6,7 +6,7 @@ Bugly提供两种集成方式供iOS开发者选择：
 - CocoaPods
 - 手动集成
 
-如果您是从`Bugly 2.0`以下版本升级过来的，请查看 `Bugly旧版本顺滑升级指引`
+如果您是从`Bugly 2.0`以下版本升级过来的，请查看 [Bugly 旧版本顺滑升级指引](./UPGRADE_GUIDE.md)
 
 #### 1.1 CocoaPods集成方式
 
