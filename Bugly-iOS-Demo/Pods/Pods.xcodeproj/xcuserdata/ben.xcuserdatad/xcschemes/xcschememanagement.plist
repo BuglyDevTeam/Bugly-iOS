@@ -9,8 +9,24 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Bugly-iOS-DemoTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>1DC92AB8706A1EF7663B03F29FAB0787</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>61D4556DDEB85CF818E812D90E11989B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

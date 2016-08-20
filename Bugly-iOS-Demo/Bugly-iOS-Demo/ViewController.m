@@ -19,7 +19,7 @@
 @implementation ViewController
 
 - (NSAttributedString *)warningString {
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"当前处于 Xcode调试状态！\n请断开调试模式再次启动后触发测试崩溃\n\n "];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"当前处于 Xcode调试状态！\n请断开调试模式再次启动 App 后触发测试崩溃\n\n "];
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"BuglyDemoImage"];
     NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
@@ -36,7 +36,7 @@
     }
     self.warningLabel.hidden = !isDebug;
     self.testCrashButton.enabled = !isDebug;
-    self.infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"当点击 Crash 按钮后，App 将会崩溃\n崩溃后请到 http://bugly.qq.com 查看上报数据"];
+    self.infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"当点击 Crash 按钮后，App 将会崩溃\n崩溃后请到 bugly.qq.com 查看上报数据"];
 }
 
 - (IBAction)testCrash:(UIButton *)sender {

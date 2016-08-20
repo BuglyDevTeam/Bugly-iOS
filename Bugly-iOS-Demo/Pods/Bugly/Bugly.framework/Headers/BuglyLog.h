@@ -1,47 +1,35 @@
 //
 //  BuglyLog.h
-//  Rqd
 //
-//  Created by Yeelik on 15/10/12.
-//  Copyright © 2015年 tencent.com. All rights reserved.
+//  Copyright © 2016年 tencent.com. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-// Log level for Bugly Logger
-typedef NS_ENUM(NSUInteger, BLYLogLevel) {
-    BLYLogLevelSilent  = 0,
-    BLYLogLevelError   = 1 << 0, // 00001
-    BLYLogLevelWarn    = 1 << 1, // 00010
-    BLYLogLevelInfo    = 1 << 2, // 00100
-    BLYLogLevelDebug   = 1 << 3, // 01000
-    BLYLogLevelVerbose = 1 << 4, // 10000
+// Log level for Bugly Log
+typedef NS_ENUM(NSUInteger, BuglyLogLevel) {
+    BuglyLogLevelSilent  = 0,
+    BuglyLogLevelError   = 1,
+    BuglyLogLevelWarn    = 2,
+    BuglyLogLevelInfo    = 3,
+    BuglyLogLevelDebug   = 4,
+    BuglyLogLevelVerbose = 5,
 };
 
-#define BLOG_LEVEL_ERR     BLYLogLevelError
-#define BLOG_LEVEL_WARN    BLYLogLevelWarn
-#define BLOG_LEVEL_INFO    BLYLogLevelInfo
-#define BLOG_LEVEL_DEBUG   BLYLogLevelDebug
-#define BLOG_LEVEL_VERBOSE BLYLogLevelVerbose
-#define BLOG_LEVEL_OFF     BLYLogLevelSilent
+#pragma mark -
 
-#define BLYLOG_MACRO(_level, fmt, ...) [BuglyLog level:_level tag:nil log:fmt, ##__VA_ARGS__]
+FOUNDATION_EXPORT void BLYLog(BuglyLogLevel level, NSString *format, ...);
 
-#pragma mark - Replace to NSLog
+FOUNDATION_EXPORT void BLYLogv(BuglyLogLevel level, NSString *format, va_list args);
 
-#define BLogError(fmt, ...)   BLYLOG_MACRO(BLYLogLevelError, fmt, ##__VA_ARGS__)
-#define BLogWarn(fmt, ...)    BLYLOG_MACRO(BLYLogLevelWarn,  fmt, ##__VA_ARGS__)
-#define BLogInfo(fmt, ...)    BLYLOG_MACRO(BLYLogLevelInfo, fmt, ##__VA_ARGS__)
-#define BLogDebug(fmt, ...)   BLYLOG_MACRO(BLYLogLevelDebug, fmt, ##__VA_ARGS__)
-#define BLogVerbose(fmt, ...) BLYLOG_MACRO(BLYLogLevelVerbose, fmt, ##__VA_ARGS__)
+#pragma mark -
+#define BUGLY_LOG_MACRO(_level, fmt, ...) [BuglyLog level:_level tag:nil log:fmt, ##__VA_ARGS__]
 
-/*
- 直接把NSLog替换成相应级别的BLog即可，如下述例子,替换成Info级别的
- 
- NSLog(@"test %@",@"string");
- 变成
- BLogInfo(@"test %@",@"string");
-*/
+#define BLYLogError(fmt, ...)   BUGLY_LOG_MACRO(BuglyLogLevelError, fmt, ##__VA_ARGS__)
+#define BLYLogWarn(fmt, ...)    BUGLY_LOG_MACRO(BuglyLogLevelWarn,  fmt, ##__VA_ARGS__)
+#define BLYLogInfo(fmt, ...)    BUGLY_LOG_MACRO(BuglyLogLevelInfo, fmt, ##__VA_ARGS__)
+#define BLYLogDebug(fmt, ...)   BUGLY_LOG_MACRO(BuglyLogLevelDebug, fmt, ##__VA_ARGS__)
+#define BLYLogVerbose(fmt, ...) BUGLY_LOG_MACRO(BuglyLogLevelVerbose, fmt, ##__VA_ARGS__)
 
 #pragma mark - Interface
 @interface BuglyLog : NSObject
@@ -49,23 +37,16 @@ typedef NS_ENUM(NSUInteger, BLYLogLevel) {
 /**
  *    @brief  初始化日志模块
  *
- *    @param level 设置默认日志级别，默认BLYLogLevelInfo
+ *    @param level 设置默认日志级别，默认BLYLogLevelSilent
  *
  *    @param printConsole 是否打印到控制台，默认NO
  */
-+ (void)initLogger:(BLYLogLevel) level consolePrint:(BOOL) printConsole;
-
-/**
- *    @brief  获取默认的日志级别
- *
- *    @return BLYLogLevel
- */
-+ (BLYLogLevel)logLevel;
++ (void)initLogger:(BuglyLogLevel) level consolePrint:(BOOL) printConsole;
 
 /**
  *    @brief 打印BLYLogLevelInfo日志
  *
- *    @param format 日志内容
+ *    @param fmt   日志内容 总日志大小限制为：字符串长度30k，条数200
  */
 + (void)log:(NSString *)format, ...;
 
@@ -73,17 +54,25 @@ typedef NS_ENUM(NSUInteger, BLYLogLevel) {
  *    @brief  打印日志
  *
  *    @param level 日志级别
- *    @param fmt   日志内容
+ *    @param fmt   日志内容 总日志大小限制为：字符串长度30k，条数200
  */
-+ (void)level:(BLYLogLevel) level log:(NSString *)format, ...;
++ (void)level:(BuglyLogLevel) level logs:(NSString *)message;
+
+/**
+ *    @brief  打印日志
+ *
+ *    @param level 日志级别
+ *    @param fmt   日志内容 总日志大小限制为：字符串长度30k，条数200
+ */
++ (void)level:(BuglyLogLevel) level log:(NSString *)format, ...;
 
 /**
  *    @brief  打印日志
  *
  *    @param level  日志级别
  *    @param tag    日志模块分类
- *    @param format 日志内容
+ *    @param fmt   日志内容 总日志大小限制为：字符串长度30k，条数200
  */
-+ (void)level:(BLYLogLevel)level tag:(NSString *) tag log:(NSString *)format, ...;
++ (void)level:(BuglyLogLevel) level tag:(NSString *) tag log:(NSString *)format, ...;
 
 @end
