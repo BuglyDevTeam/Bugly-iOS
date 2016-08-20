@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '7.0'
   s.vendored_frameworks ='Bugly.framework'
   s.frameworks = 'SystemConfiguration','Security'
-  s.library = 'z'
+  s.library = 'z','c++'
   s.license      = {
     :type => 'Copyright',
     :text => <<-LICENSE
