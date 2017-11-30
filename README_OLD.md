@@ -97,7 +97,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 
 ----
 
-##如何确认成功接入 Bugly ？
+## 如何确认成功接入 Bugly ？
 
 Bugly 会在 log 中输出关键步骤,为了完成接入检测,请在你的 App 代码中手动构建一个异常,如下述例子
 

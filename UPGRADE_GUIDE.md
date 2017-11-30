@@ -1,8 +1,8 @@
-#Bugly 旧版本顺滑升级指引
+# Bugly 旧版本顺滑升级指引
 
 为了SDK接口更加清晰明了，避免使用中的困惑，我们重新梳理调整了Bugly SDK中的接口，请旧版本(< 2.0)用户参照此指引进行升级。
 
-###初始化
+### 初始化
 
 - 导入头文件
 
@@ -40,7 +40,7 @@
 	[Bugly startWithAppId:@"BUGLY_APP_ID" config:config];
 ```
 
-###功能开关
+### 功能开关
 
 **在新版本(2.0 +) Bugly接口中，所有的功能开关均在 BuglyConfig 中设置，请在初始化 Bugly 前先自定义 BuglyConfig**
 
@@ -117,7 +117,7 @@
 	config.symbolicateInProcessEnable = YES;
 ```
 
-###自定义数据
+### 自定义数据
 
 **在新版本(2.0 +) Bugly接口中，部分自定义数据在 BuglyConfig 中设置，请在初始化 Bugly 前先自定义 BuglyConfig。**
 
