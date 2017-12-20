@@ -3,11 +3,11 @@ Pod::Spec.new do |s|
   s.name         = "Bugly"
   s.version      = "2.5.0"
   s.summary      = "Bugly iOS SDK"
-  s.description  = "iOS library for Bugly Crash Report Service"
+  s.description  = "iOS library for Bugly Crash Report Service. Sign up for a service at https://bugly.qq.com."
   s.homepage     = "http://bugly.qq.com/"
-  s.license      = { :type => "Commercial", :text => "©2017 Bugly Tencent"}
+  s.license      = { :type => "Commercial", :text => "Copyright (C) 2017 Tencent Bugly, Inc. All rights reserved."}
   s.author       = { "Tencent" => "bugly@tencent.com" }
-  s.source       = { :http => "https://raw.githubusercontent.com/BuglyDevTeam/Bugly-iOS/master/release/Bugly-2.5.0.zip" }
+  s.source       = { :http => "http://softfile.3g.qq.com/myapp/buglysdk/Bugly-2.5.0.zip" }
   s.requires_arc = true  
   s.platform     = :ios
   s.ios.deployment_target = '7.0'
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.license      = {
     :type => 'Copyright',
     :text => <<-LICENSE
-      Copyright 2017 Bugly Tencent. All rights reserved.
+      Copyright (C) 2017 Tencent Bugly, Inc. All rights reserved.
       LICENSE
   }
   end
