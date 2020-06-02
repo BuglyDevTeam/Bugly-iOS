@@ -16,6 +16,8 @@
 			<key>FooterText</key>
 			<string>Copyright 2016 tencent.com. All rights reserved.
 </string>
+			<key>License</key>
+			<string>Copyright</string>
 			<key>Title</key>
 			<string>Bugly</string>
 			<key>Type</key>
