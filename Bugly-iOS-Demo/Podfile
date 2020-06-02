@@ -2,7 +2,7 @@
 # platform :ios, '6.0'
 
 target 'Bugly-iOS-Demo' do
-pod 'Bugly'
+pod 'Bugly','~> 2.5.5'
 end
 
 target 'Bugly-iOS-DemoTests' do

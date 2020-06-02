@@ -10,7 +10,7 @@
 #import <Bugly/Bugly.h>
 
 //请替换成在 bugly.qq.com 申请到的 appid
-#define BUGLY_APPID @"900001055"
+#define BUGLY_APPID @"063db5078c"
 
 @interface AppDelegate ()<BuglyDelegate>
 

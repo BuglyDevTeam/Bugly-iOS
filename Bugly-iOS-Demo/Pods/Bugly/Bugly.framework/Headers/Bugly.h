@@ -1,10 +1,9 @@
 //
 //  Bugly.h
-//  Bugly
 //
-//  Version: 2.4(0)
+//  Version: 2.5(5)
 //
-//  Copyright (c) 2016年 Bugly. All rights reserved.
+//  Copyright (c) 2017年 Tencent. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -17,7 +16,7 @@ BLY_START_NONNULL
 @interface Bugly : NSObject
 
 /**
- *  初始化Bugly,使用默认BuglyConfig
+ *  初始化Bugly,使用默认BuglyConfigs
  *
  *  @param appId 注册Bugly分配的应用唯一标识
  */
@@ -36,7 +35,7 @@ BLY_START_NONNULL
  *  使用指定配置初始化Bugly
  *
  *  @param appId 注册Bugly分配的应用唯一标识
- *  @param developmentDevice 是否开发设备
+ *  @param development 是否开发设备
  *  @param config 传入配置的 BuglyConfig
  */
 + (void)startWithAppId:(NSString * BLY_NULLABLE)appId
@@ -60,8 +59,8 @@ BLY_START_NONNULL
 /**
  *  设置关键数据，随崩溃信息上报
  *
- *  @param value
- *  @param key
+ *  @param value KEY
+ *  @param key VALUE
  */
 + (void)setUserValue:(NSString *)value
               forKey:(NSString *)key;
@@ -92,7 +91,7 @@ BLY_START_NONNULL
  *
  *  @return 设备ID
  */
-+ (NSString *)deviceId;
++ (NSString *)buglyDeviceId;
 
 /**
  *  上报自定义Objective-C异常
@@ -118,14 +117,34 @@ BLY_START_NONNULL
  *    @param info        附加数据
  *    @param terminate   上报后是否退出应用进程
  */
-+ (void)reportExceptionWithCategory:(NSUInteger)category name:(NSString *)aName reason:(NSString *)aReason callStack:(NSArray *)aStackArray extraInfo:(NSDictionary *)info terminateApp:(BOOL)terminate;
++ (void)reportExceptionWithCategory:(NSUInteger)category
+                               name:(NSString *)aName
+                             reason:(NSString *)aReason
+                          callStack:(NSArray *)aStackArray
+                          extraInfo:(NSDictionary *)info
+                       terminateApp:(BOOL)terminate;
 
 /**
  *  SDK 版本信息
  *
- *  @return
+ *  @return SDK版本号
  */
 + (NSString *)sdkVersion;
+
+/**
+ *  APP 版本信息
+ *
+ *  @return SDK版本号
+ */
++ (NSString *)appVersion;
+
+/**
+ *  App 是否发生了连续闪退
+ *  如果 启动SDK 且 5秒内 闪退，且次数达到 3次 则判定为连续闪退
+ *
+ *  @return 是否连续闪退
+ */
++ (BOOL)isAppCrashedOnStartUpExceedTheLimit;
 
 BLY_END_NONNULL
 
