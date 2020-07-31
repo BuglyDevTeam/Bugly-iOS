@@ -132,5 +132,10 @@ BLY_START_NONNULL
  */
 @property (nonatomic, assign) NSUInteger crashAbortTimeout;
 
+/**
+ *  设置自定义联网、crash上报域名
+ */
+@property (nonatomic, copy) NSString *crashServerUrl;
+
 @end
 BLY_END_NONNULL

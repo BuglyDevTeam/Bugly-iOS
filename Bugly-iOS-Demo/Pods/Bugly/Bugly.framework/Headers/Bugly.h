@@ -1,7 +1,7 @@
 //
 //  Bugly.h
 //
-//  Version: 2.5(5)
+//  Version: 2.5(71)
 //
 //  Copyright (c) 2017年 Tencent. All rights reserved.
 //
@@ -64,6 +64,13 @@ BLY_START_NONNULL
  */
 + (void)setUserValue:(NSString *)value
               forKey:(NSString *)key;
+
+/**
+ *  获取USER ID
+ *
+ *  @return USER ID
+ */
++ (NSString *)buglyUserIdentifier;
 
 /**
  *  获取关键数据
@@ -145,6 +152,11 @@ BLY_START_NONNULL
  *  @return 是否连续闪退
  */
 + (BOOL)isAppCrashedOnStartUpExceedTheLimit;
+
+/**
+ *  关闭bugly监控
+ */
++ (void)closeCrashReport;
 
 BLY_END_NONNULL
 
